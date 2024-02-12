@@ -1,0 +1,2 @@
+default:
+	javac IPerfer.java
