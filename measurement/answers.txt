@@ -1,0 +1,64 @@
+# Question 2
+Prediction:
+If h1 wants to communicate with h4, then the path is going to be h1-s1-s2-s3-s4-h4 which goes through L1, L2, L3, and the connections between the switches and hosts. So my expectation for latency is Lat(L1)+Lat(L2)+Lat(L3)=~80ms+~20ms+~60ms=~160ms, and the expectation for bandwidth is min(BW(L1),BW(L2),BW(L3))=min(~19mbps, ~38mbps, ~24mbps)=~19mbps. 
+
+Result:
+    Latency:
+        rtt min/avg/max/mdev = 160.205/161.001/174.223/3.067 ms
+    Throughput:
+        client side: sent=58124 KB rate=23.250 Mbps
+        server side: received=58124 KB rate=18.552 Mbps
+    Analysis:
+        The result is basically accords to my expectation. 
+
+
+# Question 3
+Prediction:
+Two pairs(h1->h4, h7->h9):
+    Since both of these two connections goes through h1/h7-s1-s2-s3-s4-h4/h9, the path is same. So I think the latency will keep the same (~160ms) and the bandwidth will decrease to about ~10mbps each and sum up to ~19mbps. 
+Three pairs(h1->h4, h7->h9, h8->h10):
+    The path is same as above, so the latency will keep the same, and the bandwidth will decrease to about ~6mbps each (maybe some up and down) and sum up to ~19mbps. 
+
+Result:
+Two pairs(h1->h4, h7->h9):
+    Latency:
+        h4: rtt min/avg/max/mdev = 160.202/161.073/169.066/2.410 ms
+        h9: rtt min/avg/max/mdev = 160.245/161.096/168.665/2.280 ms
+    Throughput:
+        h1: sent=15602 KB rate=6.241 Mbps
+        h4: received=15602 KB rate=4.752 Mbps
+        h7: sent=49558 KB rate=19.823 Mbps
+        h9: received=49558 KB rate=14.209 Mbps
+    Analysis:
+        The prediction of latency is correct, but there is some deviation about the bandwidth. Though the sum is ~20mbps which is correct, the fraction between two connections is 3:1. I think this is mostly caused by the setup time of connections and the ordering of packet sending.
+Three pairs(h1->h4, h7->h9, h8->h10):
+    Latency:
+        h4: rtt min/avg/max/mdev = 160.195/161.330/174.255/3.037 ms
+        h9: rtt min/avg/max/mdev = 160.221/162.041/177.456/3.804 ms
+        h10: rtt min/avg/max/mdev = 160.273/161.612/174.327/3.243 ms
+    Throughput:
+        h1: sent=10628 KB rate=4.251 Mbps
+        h4: received=10628 KB rate=3.649 Mbps
+        h7: sent=50690 KB rate=20.276 Mbps
+        h9: received=50690 KB rate=15.486 Mbps
+        h8: sent=5423 KB rate=2.169 Mbps
+        h10: received=5423 KB rate=2.136 Mbps
+    Analysis:
+        Again, the prediction of latency is correct, but the specific value of each connections' bandwidth has some deviation from the expected value. I keep my guess that this is caused by the connecting order and the packet sending order.
+
+
+# Question 4
+Predictions:
+    The two connections are h1-s1-s2-s3-s4-h4 and h5-s5-s2-s3-s6. The latency of h1->h4 is ~160ms as same as above, and the latency of h5->h6 is Lat(L4)+lat(L2)+Lat(L5)=~10ms+~20ms+~10ms=~40ms. Since these two connections share L2, so the sume of their throughput should be around BW(L2)=~38mbps.
+
+Result:
+    Latency:
+        h4: rtt min/avg/max/mdev = 160.237/160.911/171.522/2.501 ms
+        h6: rtt min/avg/max/mdev = 40.189/40.948/52.929/2.759 ms
+    Throughput:
+        h1: sent=41894 KB rate=16.758 Mbps
+        h4: received=41894 KB rate=14.089 Mbps
+        h5: sent=68547 KB rate=27.419 Mbps
+        h6: received=68547 KB rate=22.588 Mbps
+    Analysis:
+        Considering the latency of h1->h4 is ~161ms, h5->h6 is ~41ms, and the sum of receiving bandwidth of h4 and h6 is ~37mbps, it is fair to say that all these results match their prediction. 
