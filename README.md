@@ -1,4 +1,4 @@
 # CS640_HW1
 Authors:
-Lin Ha
+Lin Ha  
 Hongtao Zhang
